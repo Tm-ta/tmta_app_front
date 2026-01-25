@@ -1,0 +1,2 @@
+export { VoteScreen } from './VoteScreen';
+
