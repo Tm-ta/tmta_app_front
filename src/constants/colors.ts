@@ -8,6 +8,7 @@ export const COLORS = {
   // Black
   black: {
     '900': '#141414',
+    '600': '#2c2c2c',
     '500': '#303030',
     '10': '#000000',
   },
@@ -20,6 +21,7 @@ export const COLORS = {
     '500': '#DBDADD',
     '400': '#E2E1E4',
     '300': '#E7E6E8',
+    '100': '#F4F4F4', //추가
   },
 
   // Basic
