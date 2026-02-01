@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Screen } from '../../components/Screen';
 import { Plus } from 'lucide-react-native';
 import {
   COLORS,
@@ -18,7 +18,7 @@ import {
 import { GroupCard } from './components/GroupCard';
 
 export function GroupListScreen({ navigation }: any) {
-  const [selectedTab, setSelectedTab] = useState<'약속' | '모임'>('모임');
+  const [selectedTab, setSelectedTab] = useState<"약속" | "모임">("모임");
   const [selectedFilter, setSelectedFilter] = useState('전체');
   const [selectedCategory, setSelectedCategory] = useState('전체');
 
@@ -32,11 +32,11 @@ export function GroupListScreen({ navigation }: any) {
     if (selectedCategory !== '전체' && group.category !== selectedCategory) {
       return false;
     }
-    return group.type === selectedTab;
+    return group.type === "모임";
   });
 
   return (
-    <SafeAreaView style={styles.container}>
+    <Screen style={styles.container}>
       <View style={styles.content}>
         {/* Header Tabs */}
         <View style={styles.headerTabs}>
@@ -152,14 +152,14 @@ export function GroupListScreen({ navigation }: any) {
           <Plus color={COLORS.white} size={32} strokeWidth={2.5} />
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    // backgroundColor: COLORS.white,
   },
   content: {
     flex: 1,

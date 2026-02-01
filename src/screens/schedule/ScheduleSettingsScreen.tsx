@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
@@ -220,7 +221,7 @@ const styles = StyleSheet.create({
   titleInput: {
     fontSize: FONT_SIZES.heading,
     fontFamily: FONTS.pretendard.extraBold,
-    color: COLORS.black,
+    color: COLORS.black['10'],
     paddingVertical: 16,
     marginBottom: 20,
   },

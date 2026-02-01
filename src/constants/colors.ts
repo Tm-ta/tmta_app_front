@@ -1,8 +1,9 @@
 export const COLORS = {
   // Main
   main: {
-    normal: '#FBB337',
+    normal: '#AEE26E',
     light: '#FFF7EB',
+    background: '#FFFDEF',
   },
 
   // Black
@@ -24,7 +25,7 @@ export const COLORS = {
 
   // Basic
   white: '#FFFFFF',
-  black: '#000000',
+  // black: '#000000',
 
   // Text
   text: {
