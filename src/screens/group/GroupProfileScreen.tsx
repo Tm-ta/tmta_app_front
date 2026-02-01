@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -15,7 +16,7 @@ import { COLORS, FONTS, FONT_SIZES } from '../../constants';
 import { Button, Input } from '../../components';
 
 export function GroupProfileScreen({ navigation, route }: any) {
-  const { groupName } = route.params || {};
+  // const { groupName } = route.params || {};
   const [nickname, setNickname] = useState('');
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
@@ -116,7 +117,7 @@ export function GroupProfileScreen({ navigation, route }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.main.background,
   },
   content: {
     flex: 1,

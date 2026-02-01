@@ -104,7 +104,7 @@ export function GroupCreateScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.main.background,
   },
   content: {
     flex: 1,
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: FONT_SIZES.heading,
     fontFamily: FONTS.pretendard.extraBold,
-    color: COLORS.black,
+    color: COLORS.black['10'],
     textAlign: 'center',
     paddingVertical: 4,
   },

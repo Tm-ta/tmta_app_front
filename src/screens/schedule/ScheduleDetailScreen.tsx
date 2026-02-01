@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Users } from 'lucide-react-native';
+// import { Users } from 'lucide-react-native';
 import { COLORS, FONTS, FONT_SIZES, MOCK_VOTED_MEMBERS, MOCK_SCHEDULES } from '../../constants';
 import { Header, Button } from '../../components';
 import { getAvatarUrl } from '../../utils';
