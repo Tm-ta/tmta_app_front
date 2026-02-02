@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: FONT_SIZES.heading,
     fontFamily: FONTS.pretendard.extraBold,
-    color: COLORS.black['10'],
+    color: COLORS.black['500'],
     textAlign: 'center',
     paddingVertical: 4,
   },

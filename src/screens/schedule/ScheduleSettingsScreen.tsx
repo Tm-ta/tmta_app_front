@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
   titleInput: {
     fontSize: FONT_SIZES.heading,
     fontFamily: FONTS.pretendard.extraBold,
-    color: COLORS.black['10'],
+    color: COLORS.black['500'],
     paddingVertical: 16,
     marginBottom: 20,
   },
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
   settingLabel: {
     fontSize: FONT_SIZES.body1,
     fontFamily: FONTS.pretendard.regular,
-    color: COLORS.black['900'],
+    color: COLORS.black['500'],
   },
   settingValue: {
     alignItems: 'flex-end',
