@@ -55,7 +55,7 @@ export const COLORS = {
 
   // Text
   text: {
-    primary: '#000000',
+    primary: BLACK[500],
     secondary: '#565656',
     tertiary: '#C1C1C1',
     placeholder: '#9B9B9D',
