@@ -38,6 +38,10 @@ export type VotedMember = {
 };
 
 export type RootStackParamList = {
+  //Auth
+  Login : undefined;
+  EmailLogin: undefined;
+
   // Group
   GroupList: undefined;
   GroupCreate: undefined;
