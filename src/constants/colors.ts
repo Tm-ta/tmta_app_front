@@ -11,6 +11,7 @@ export const COLORS = {
     '900': '#141414',
     '600': '#2c2c2c',
     '500': '#303030',
+    '300': '#747474',
     '10': '#000000',
   },
 
@@ -27,7 +28,6 @@ export const COLORS = {
 
   // Basic
   white: '#FFFFFF',
-  // black: '#000000',
 
   // Text
   text: {
@@ -35,5 +35,6 @@ export const COLORS = {
     secondary: '#565656',
     tertiary: '#C1C1C1',
     placeholder: '#9B9B9D',
+    kakao: 'rgba(0,0,0,0.85)',
   },
 } as const;
