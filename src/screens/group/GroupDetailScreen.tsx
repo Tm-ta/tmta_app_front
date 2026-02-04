@@ -21,11 +21,14 @@ import {
   MOCK_GROUPS,
 } from '../../constants';
 import { getAvatarUrl } from '../../utils';
-import { Header } from '../../components';
+import { Button, Header } from '../../components';
 import { MembersTab } from './components/MembersTab';
 import { SchedulesTab } from './components/SchedulesTab';
 import PeopleIcon from '../../assets/icons/People.svg';
 import CalendarPlusIcon from '../../assets/icons/Calendar-plus.svg';
+
+// Error Popup test
+import { useErrorPopup } from '../../components/popup/ErrorPopupProvider';
 
 type TabType = '멤버' | '일정' | '투표';
 
@@ -36,6 +39,9 @@ export function GroupDetailScreen({ navigation, route }: any) {
 
   // groupId로 해당 그룹 찾기
   const group = MOCK_GROUPS.find(g => g.id === groupId) || MOCK_GROUPS[0];
+
+  // Error Popup test
+  const { showErrorPopup } = useErrorPopup();
 
   const renderTabContent = () => {
     switch (selectedTab) {
@@ -53,7 +59,10 @@ export function GroupDetailScreen({ navigation, route }: any) {
       case '투표':
         return (
           <View style={styles.tabContent}>
-            <Text>투표 탭</Text>
+            <Button
+              title='Error'
+              onPress={()=> showErrorPopup('CHECK_NETWORK_AND_RETRY')}
+            />
           </View>
         );
       default:
@@ -155,7 +164,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   groupName: {
-    fontSize: FONT_SIZES.title,
+    fontSize: FONT_SIZES.title2,
     fontFamily: FONTS.pretendard.bold,
     color: COLORS.text.primary,
   },

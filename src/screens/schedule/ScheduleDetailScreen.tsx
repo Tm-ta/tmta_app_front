@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   title: {
-    fontSize: FONT_SIZES.title,
+    fontSize: FONT_SIZES.title2,
     fontFamily: FONTS.pretendard.bold,
     color: COLORS.text.primary,
   },
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray['300'],
   },
   sectionTitle: {
-    fontSize: FONT_SIZES.title,
+    fontSize: FONT_SIZES.title2,
     fontFamily: FONTS.pretendard.bold,
     color: COLORS.text.primary,
     marginBottom: 16,

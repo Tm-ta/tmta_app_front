@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import PeopleIcon from '../../../assets/icons/People.svg';
+import PeopleIcon from '../../../assets/icons/People-gray.svg';
 import { COLORS, FONTS, FONT_SIZES } from '../../../constants';
 import { getAvatarUrl } from '../../../utils';
 import type { Group } from '../../../types';
@@ -25,6 +25,11 @@ export function GroupCard({ group, onPress }: GroupCardProps) {
         style={styles.imageContainer}
       />
       <View style={styles.contentContainer}>
+        {group.isRecruitingSchedule && (
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>약속 모집 중</Text>
+          </View>
+        )}
         <Text style={styles.name}>{group.name}</Text>
         <View style={styles.infoRow}>
           <View style={styles.infoItem}>
@@ -53,11 +58,6 @@ export function GroupCard({ group, onPress }: GroupCardProps) {
             </View>
           )}
         </View>
-        {group.isRecruitingSchedule && (
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>일정 모집 중</Text>
-          </View>
-        )}
       </View>
     </TouchableOpacity>
   );
@@ -65,23 +65,42 @@ export function GroupCard({ group, onPress }: GroupCardProps) {
 
 const styles = StyleSheet.create({
   container: {
+    height: 124,
     flexDirection: 'row',
     gap: 16,
     paddingVertical: 16,
+    // borderColor: COLORS.pink['300'],
+    borderColor: '#FF9EB650',
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 20,
+    marginBottom: 12, // card gap
+    backgroundColor: COLORS.white,
+
+    // shadow (iOS)
+    shadowColor: COLORS.pink['200'],
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+
+    // shadow (Android)
+    elevation: 5,
+
   },
   imageContainer: {
-    width: 82,
-    height: 82,
-    borderRadius: 4,
+    width: 88,
+    height: 88,
+    borderRadius: 12,
     backgroundColor: COLORS.gray['300'],
   },
   contentContainer: {
     flex: 1,
     gap: 4,
+    justifyContent: 'center'
   },
   name: {
-    fontSize: FONT_SIZES.title,
-    fontFamily: FONTS.pretendard.bold,
+    fontSize: FONT_SIZES.title2,
+    fontFamily: FONTS.pretendard.semiBold,
     color: COLORS.text.primary,
   },
   infoRow: {
@@ -97,7 +116,7 @@ const styles = StyleSheet.create({
   infoText: {
     fontSize: FONT_SIZES.title5,
     fontFamily: FONTS.pretendard.medium,
-    color: COLORS.text.primary,
+    color: COLORS.gray['700'], // 추후 수정 필요. 텍스트 색상 일괄 적용해야 함 
   },
   membersPreview: {
     flexDirection: 'row',
@@ -114,7 +133,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: COLORS.white,
-    backgroundColor: COLORS.gray['300'],
+    backgroundColor: COLORS.gray['700'],
   },
   moreMembers: {
     fontSize: FONT_SIZES.body4,
@@ -122,15 +141,15 @@ const styles = StyleSheet.create({
     color: COLORS.text.primary,
   },
   badge: {
-    alignSelf: 'flex-start',
-    backgroundColor: COLORS.main.light,
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
+    width: 62,
+    alignItems: 'center',
+    backgroundColor: COLORS.pink['75'],
+    borderRadius: 20,
+    padding: 2,
   },
   badgeText: {
-    fontSize: FONT_SIZES.title5,
-    fontFamily: FONTS.pretendard.medium,
-    color: COLORS.main.normal,
+    fontSize: FONT_SIZES.body5,
+    fontFamily: FONTS.pretendard.semiBold,
+    color: COLORS.black['500'],
   },
 });
