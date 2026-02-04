@@ -20,9 +20,8 @@ export function ScheduleTimeScreen({ navigation, route }: any) {
   const [startTime, setStartTime] = useState(9);
   const [endTime, setEndTime] = useState(18);
   const [selectedPreset, setSelectedPreset] = useState('');
-
-  const startScrollRef = useRef<ScrollView>(null);
-  const endScrollRef = useRef<ScrollView>(null);
+  const startScrollRef = useRef<ScrollView | null>(null);
+  const endScrollRef = useRef<ScrollView | null>(null);
 
   useEffect(() => {
     // 초기 스크롤 위치 설정 (초기 마운트시에만 실행)
@@ -39,13 +38,11 @@ export function ScheduleTimeScreen({ navigation, route }: any) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const scrollToTime = (
-    ref: React.RefObject<ScrollView | null>,
-    time: number,
-  ) => {
+  const scrollToTime = (ref: React.RefObject<ScrollView | null>, time: number) => {
     ref.current?.scrollTo({ y: time * ITEM_HEIGHT, animated: true });
   };
 
+  const presetIgnoreCountRef = useRef(0);
   const handlePresetPress = (preset: string) => {
     setSelectedPreset(preset);
 
@@ -73,6 +70,10 @@ export function ScheduleTimeScreen({ navigation, route }: any) {
 
     setStartTime(newStartTime);
     setEndTime(newEndTime);
+
+    // start/end 스크롤 각각 onMomentumScrollEnd 1번씩 총 2번 무시
+    presetIgnoreCountRef.current = 2;
+
     scrollToTime(startScrollRef, newStartTime);
     scrollToTime(endScrollRef, newEndTime);
   };
@@ -82,11 +83,16 @@ export function ScheduleTimeScreen({ navigation, route }: any) {
     const index = Math.round(yOffset / ITEM_HEIGHT);
     const clampedIndex = Math.max(0, Math.min(24, index));
 
-    if (isStart) {
-      setStartTime(clampedIndex);
-    } else {
-      setEndTime(clampedIndex);
+    if (isStart) setStartTime(clampedIndex);
+    else setEndTime(clampedIndex);
+
+    // 프리셋으로 인해 발생한 스크롤 이벤트는 무시
+    if (presetIgnoreCountRef.current > 0) {
+      presetIgnoreCountRef.current -= 1;
+      return;
     }
+
+    // 유저가 직접 스크롤한 경우만 프리셋 해제
     setSelectedPreset('');
   };
 
@@ -192,7 +198,7 @@ export function ScheduleTimeScreen({ navigation, route }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.main.background,
   },
   header: {
     paddingHorizontal: 20,
@@ -252,14 +258,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   timeItemText: {
-    fontSize: FONT_SIZES.title3,
+    fontSize: FONT_SIZES.title2,
     fontFamily: FONTS.pretendard.medium,
     color: COLORS.text.tertiary,
   },
   timeItemTextActive: {
-    fontSize: FONT_SIZES.title2,
+    fontSize: FONT_SIZES.title1,
     fontFamily: FONTS.pretendard.semiBold,
-    color: COLORS.main.normal,
+    color: COLORS.main.point,
   },
   timeItemLabel: {
     fontSize: FONT_SIZES.title3,
@@ -280,7 +286,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   filterChipActive: {
-    backgroundColor: COLORS.black['500'],
+    backgroundColor: COLORS.main.normal,
   },
   filterText: {
     fontSize: FONT_SIZES.title5,
@@ -288,7 +294,7 @@ const styles = StyleSheet.create({
     color: COLORS.text.primary,
   },
   filterTextActive: {
-    color: COLORS.white,
+    // color: COLORS.white,s
   },
   footer: {
     paddingHorizontal: 16,

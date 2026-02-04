@@ -69,12 +69,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 16,
     paddingVertical: 16,
+    padding: 20,
+    marginBottom: 12, // card gap
     // borderColor: COLORS.pink['300'],
     borderColor: '#FF9EB650',
     borderWidth: 1,
     borderRadius: 12,
-    padding: 20,
-    marginBottom: 12, // card gap
     backgroundColor: COLORS.white,
 
     // shadow (iOS)
