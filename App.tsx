@@ -13,6 +13,9 @@ import { ErrorPopupProvider } from './src/components/popup/ErrorPopupProvider';
 import { ConfirmProvider } from './src/components/popup/ConfirmProvider';
 
 
+//임시 로그인 페이지 렌더링 확인용
+// import { LoginScreen } from './src/screens/auth/LoginScreen';
+
 function App() {
   return (
     <SafeAreaProvider>
@@ -24,6 +27,8 @@ function App() {
       </ErrorPopupProvider>
     </SafeAreaProvider>
   );
+
+  // return <LoginScreen />;
 }
 
 export default App;
