@@ -80,7 +80,7 @@ export function ScheduleDetailScreen({ navigation, route }: any) {
 
       <View style={styles.footer}>
         <Button
-          title="투표하러 가기"
+          title="일정 등록하러 가기"
           onPress={() => navigation.navigate('Vote', { scheduleId })}
           variant="primary"
         />
