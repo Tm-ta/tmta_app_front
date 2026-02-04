@@ -20,6 +20,13 @@ export function ErrorPopupProvider({ children }: { children: React.ReactNode }) 
 
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // useEffect(() => {
+  //   console.log('[ErrorPopupProvider] visible changed:', visible);
+  // }, [visible]);
+  // useEffect(() => {
+  //   console.log('[!ErrorPopupProvider] payload:', payload.message);
+  // }, [payload.message]);
+
   // 1.5초 후 팝업 종료
   const hideErrorPopup = useCallback(() => {
     setVisible(false);
@@ -30,6 +37,8 @@ export function ErrorPopupProvider({ children }: { children: React.ReactNode }) 
   }, []);
 
   const showErrorPopup = useCallback((keyOrMessage: PopupMessageKey | string) => {
+    // console.log('[ErrorPopupProvider-show] showErrorPopup called:');
+  
     const message =
       keyOrMessage in POPUP_MESSAGE
         ? POPUP_MESSAGE[keyOrMessage as PopupMessageKey]

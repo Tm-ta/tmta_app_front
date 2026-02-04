@@ -14,6 +14,7 @@ import { ScheduleDetailScreen } from '../screens/schedule/ScheduleDetailScreen';
 import { ScheduleDateScreen } from '../screens/schedule/ScheduleDateScreen';
 import { ScheduleTimeScreen } from '../screens/schedule/ScheduleTimeScreen';
 import { ScheduleSettingsScreen } from '../screens/schedule/ScheduleSettingsScreen';
+import { ScheduleCreatedScreen } from '../screens/schedule/ScheduleCreatedScreen';
 
 // Vote Screens
 import { VoteScreen } from '../screens/vote/VoteScreen';
@@ -40,10 +41,8 @@ export function RootNavigator() {
         <Stack.Screen name="ScheduleDetail" component={ScheduleDetailScreen} />
         <Stack.Screen name="ScheduleDate" component={ScheduleDateScreen} />
         <Stack.Screen name="ScheduleTime" component={ScheduleTimeScreen} />
-        <Stack.Screen
-          name="ScheduleSettings"
-          component={ScheduleSettingsScreen}
-        />
+        <Stack.Screen name="ScheduleSettings" component={ScheduleSettingsScreen} />
+        <Stack.Screen name="ScheduleCreated" component={ScheduleCreatedScreen} />
 
         {/* Vote Screens */}
         <Stack.Screen name="Vote" component={VoteScreen} />

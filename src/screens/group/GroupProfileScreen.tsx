@@ -12,8 +12,9 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { launchImageLibrary } from 'react-native-image-picker';
 import PlusIcon from '../../assets/icons/Plus.svg';
+import CameraIcon from '../../assets/icons/Camera.svg'
 import { COLORS, FONTS, FONT_SIZES } from '../../constants';
-import { Button, Input } from '../../components';
+import { Button, Header, Input } from '../../components';
 
 export function GroupProfileScreen({ navigation, route }: any) {
   // const { groupName } = route.params || {};
@@ -64,6 +65,12 @@ export function GroupProfileScreen({ navigation, route }: any) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Header
+        onBackPress={() => navigation.goBack()}
+        showMenu={false}
+        onMenuPress={() => {}}
+      />
+
       <View style={styles.content}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>모임에서 사용할</Text>
@@ -77,12 +84,14 @@ export function GroupProfileScreen({ navigation, route }: any) {
             activeOpacity={0.7}
           >
             <View style={styles.profileImage}>
-              {profileImage && (
-                <Image
-                  source={{ uri: profileImage }}
-                  style={styles.profileImagePreview}
-                />
-              )}
+              {profileImage ? (
+                  <Image
+                    source={{ uri: profileImage }}
+                    style={styles.profileImagePreview}
+                  />
+                ) : (
+                  <CameraIcon width={60} height={60} />
+                )}
             </View>
             <View style={styles.addButton}>
               <PlusIcon width={30} height={30} />
@@ -143,7 +152,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: COLORS.gray['600'],
+    backgroundColor: COLORS.gray['300'],
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
