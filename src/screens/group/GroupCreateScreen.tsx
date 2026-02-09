@@ -220,11 +220,15 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.pretendard.extraBold,
   },
   input: {
-    fontSize: FONT_SIZES.heading,
+    fontSize: FONT_SIZES.heading1,
     fontFamily: FONTS.pretendard.extraBold,
     color: COLORS.text.primary,
-    // paddingVertical: 6,
-    // borderBottomWidth: 0,
+    lineHeight: 26,
+    paddingVertical: 0,
+    paddingTop: 10,
+    paddingBottom: 0,
+    includeFontPadding: false, // Android에서 제일 큼
+    textAlignVertical: 'center', // 필요 시(멀티라인 아니면 큰 영향은 적음)
   },
   underline: {
     height: 1,
