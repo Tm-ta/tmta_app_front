@@ -32,11 +32,12 @@ export function LoginScreen ({ navigation }: Props){
     }, [navigation]);
 
     const goSignup = useCallback(() => {
-        // navigation.navigate('Signup');
-    }, []);
+        navigation.navigate('Signup');
+    }, [navigation]);
 
     const handleGuestStart = useCallback(() => {
-    }, []);
+        navigation.replace('GroupList');
+    }, [navigation]);
 
 
     return(

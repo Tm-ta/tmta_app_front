@@ -41,6 +41,7 @@ export type RootStackParamList = {
   //Auth
   Login : undefined;
   EmailLogin: undefined;
+  Signup : undefined;
 
   // Group
   GroupList: undefined;

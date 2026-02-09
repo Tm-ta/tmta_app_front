@@ -694,7 +694,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   filterChipActive: {
-    backgroundColor: COLORS.black,
+    backgroundColor: COLORS.black['500'],
   },
   filterText: {
     fontSize: FONT_SIZES.title5,

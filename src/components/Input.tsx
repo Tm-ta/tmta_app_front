@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     paddingRight: 60,
   },
   inputError: {
-    borderColor: '#FF0000',
+    borderColor: '#FC0004',
   },
   count: {
     position: 'absolute',
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: FONT_SIZES.body4,
     fontFamily: FONTS.pretendard.regular,
-    color: '#FF0000',
+    color: '#FC0004',
   },
 });
 

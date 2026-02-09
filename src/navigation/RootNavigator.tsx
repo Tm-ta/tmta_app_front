@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../types';
 
 // Auth Screens
-import { LoginScreen, EmailLoginScreen } from '../screens/auth';
+import { LoginScreen, EmailLoginScreen, SignupScreen } from '../screens/auth';
 
 // Group Screens
 import { GroupListScreen } from '../screens/group/GroupListScreen';
@@ -39,6 +39,7 @@ export function RootNavigator() {
         {/* Auth Screens */}
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="EmailLogin" component={EmailLoginScreen} />
+        <Stack.Screen name="Signup" component={SignupScreen} />
 
         {/* Group Screens */}
         <Stack.Screen name="GroupList" component={GroupListScreen} />
