@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,8 @@ import {
 } from '../../constants';
 import { GroupCard } from './components/GroupCard';
 
+import { api } from '../../api/client';
+
 export function GroupListScreen({ navigation }: any) {
   const [selectedTab, setSelectedTab] = useState<"약속" | "모임">("모임");
   const [selectedFilter, setSelectedFilter] = useState('전체');
@@ -34,6 +36,17 @@ export function GroupListScreen({ navigation }: any) {
     // }
     return group.type === "모임";
   });
+
+  useEffect(() => {
+  (async () => {
+    try {
+      const res = await api.get('/api/v1/team'); 
+      console.log('OK', res.data);
+    } catch (e) {
+      console.log('FAIL', e);
+    }
+  })();
+}, []);
 
   return (
     <Screen style={styles.container}>

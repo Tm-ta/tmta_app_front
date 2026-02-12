@@ -56,7 +56,7 @@ export const COLORS = {
   // Text
   text: {
     primary: BLACK[500],
-    secondary: '#565656',
+    secondary: GRAY[700],
     tertiary: '#C1C1C1',
     placeholder: '#9B9B9D',
     kakao: 'rgba(0,0,0,0.85)',
@@ -64,8 +64,8 @@ export const COLORS = {
 
     // Main
   main: {
-    normal: PINK['300'],
-    point: YELLOW['300'],
+    normal: YELLOW['300'],
+    point: PINK['300'],
     light: '#FFF7EB',
     background: '#FFFDEF',
   },

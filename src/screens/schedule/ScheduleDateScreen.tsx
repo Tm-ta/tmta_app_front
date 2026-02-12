@@ -7,10 +7,13 @@ import {
   ScrollView,
   findNodeHandle,
   UIManager,
+  Dimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
-import { ChevronLeft, ChevronRight } from 'lucide-react-native';
+import ChevronLeft from '../../assets/icons/Chevron-left.svg';
+import CalendarChevronLeft from '../../assets/icons/Calendar-Chevron-left.svg';
+import CalendarChevronRight from '../../assets/icons/Calendar-Chevron-right.svg';
 import {
   GestureDetector,
   Gesture,
@@ -161,7 +164,7 @@ export function ScheduleDateScreen({ navigation, route }: any) {
       const handle = findNodeHandle(gestureContainerRef.current);
       if (handle) {
         UIManager.measureInWindow(handle, (x: number, y: number) => {
-          console.log('Gesture container offset:', x, y);
+          // console.log('Gesture container offset:', x, y);
           gestureOffset.current = { x, y };
         });
       }
@@ -211,16 +214,16 @@ export function ScheduleDateScreen({ navigation, route }: any) {
     ) => {
       // 절대 좌표로 저장 (findDateAtPosition에서 변환)
       dateLayouts.current.set(day.dateString, layout);
-      console.log(
-        `Date ${day.dateString} layout:`,
-        'x:',
-        layout.x,
-        'y:',
-        layout.y,
-        'offset:',
-        gestureOffset.current.x,
-        gestureOffset.current.y,
-      );
+      // console.log(
+      //   `Date ${day.dateString} layout:`,
+      //   'x:',
+      //   layout.x,
+      //   'y:',
+      //   layout.y,
+      //   'offset:',
+      //   gestureOffset.current.x,
+      //   gestureOffset.current.y,
+      // );
     },
     [],
   );
@@ -232,12 +235,12 @@ export function ScheduleDateScreen({ navigation, route }: any) {
       const absoluteX = x + gestureOffset.current.x;
       const absoluteY = y + gestureOffset.current.y;
 
-      console.log(
-        `Finding date at relative (${x}, ${y}) -> absolute (${absoluteX}, ${absoluteY}), layouts count:`,
-        dateLayouts.current.size,
-        'offset:',
-        gestureOffset.current,
-      );
+      // console.log(
+      //   `Finding date at relative (${x}, ${y}) -> absolute (${absoluteX}, ${absoluteY}), layouts count:`,
+      //   dateLayouts.current.size,
+      //   'offset:',
+      //   gestureOffset.current,
+      // );
 
       for (const [dateString, layout] of dateLayouts.current.entries()) {
         if (
@@ -509,7 +512,7 @@ export function ScheduleDateScreen({ navigation, route }: any) {
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <ChevronLeft color={COLORS.text.primary} size={36} />
+            <ChevronLeft color={COLORS.text.primary} width={24} height={24} />
           </TouchableOpacity>
         </View>
 
@@ -541,12 +544,12 @@ export function ScheduleDateScreen({ navigation, route }: any) {
                 enableSwipeMonths={false}
                 renderArrow={direction => {
                   return direction === 'left' ? (
-                    <ChevronLeft color={COLORS.text.primary} size={24} />
+                    <CalendarChevronLeft color={COLORS.text.primary} width={24} height={24} />
                   ) : (
-                    <ChevronRight color={COLORS.text.primary} size={24} />
+                    <CalendarChevronRight color={COLORS.text.primary} width={24} height={24} />
                   );
                 }}
-                theme={{
+                theme={{ // 수정 필요
                   backgroundColor: 'transparent',
                   calendarBackground: 'transparent',
                   textSectionTitleColor: COLORS.text.tertiary,
@@ -608,6 +611,9 @@ export function ScheduleDateScreen({ navigation, route }: any) {
     </GestureHandlerRootView>
   );
 }
+const SCREEN_W = Dimensions.get('window').width;
+const CALENDAR_W = SCREEN_W - 40; // content paddingHorizontal 20*2
+const DAY_SIZE = Math.min(46, Math.floor(CALENDAR_W / 7))
 
 const styles = StyleSheet.create({
   gestureRoot: {
@@ -615,7 +621,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.main.background,
   },
   header: {
     paddingHorizontal: 20,
@@ -636,8 +642,8 @@ const styles = StyleSheet.create({
   },
 
   dayContainer: {
-    width: 40,
-    height: 40,
+    width: DAY_SIZE,
+    height: DAY_SIZE,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
@@ -649,8 +655,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selectedDay: {
-    backgroundColor: COLORS.main.light,
-    borderRadius: 20,
+    backgroundColor: COLORS.main.point,
+    borderRadius: 5000,
   },
   disabledDay: {
     opacity: 0.3,
@@ -661,15 +667,16 @@ const styles = StyleSheet.create({
     color: COLORS.text.primary,
   },
   selectedDayText: {
-    color: COLORS.main.normal,
+    color: COLORS.white,
     fontFamily: FONTS.pretendard.bold,
+    fontSize: 23
   },
   disabledDayText: {
     color: COLORS.gray['700'],
   },
   todayText: {
     color: COLORS.text.primary,
-    fontFamily: FONTS.pretendard.bold,
+    fontFamily: FONTS.pretendard.semiBold,
   },
   calendar: {
     marginBottom: 40,
@@ -694,7 +701,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   filterChipActive: {
-    backgroundColor: COLORS.black['500'],
+    backgroundColor: COLORS.main.normal,
   },
   filterText: {
     fontSize: FONT_SIZES.title5,
@@ -702,7 +709,7 @@ const styles = StyleSheet.create({
     color: COLORS.text.primary,
   },
   filterTextActive: {
-    color: COLORS.white,
+    // color: COLORS.white,
   },
   footer: {
     paddingHorizontal: 16,

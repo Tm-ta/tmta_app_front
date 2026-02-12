@@ -1,43 +1,47 @@
 import React from 'react';
-import {
-  Modal,
-  Pressable,
-  View,
-  Text,
-  StyleSheet,
-  ViewStyle,
-} from 'react-native';
+import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { COLORS, FONTS, FONT_SIZES } from '../constants';
 
 type ErrorPopupProps = {
   visible: boolean;
   message: string;
-  icon?: React.ReactNode; 
+  icon?: React.ReactNode;
   onClose: () => void;
 };
 
 export function ErrorPopup({ visible, message, icon, onClose }: ErrorPopupProps) {
+  if (!visible) return null;
+
   return (
-    <Modal visible={visible} transparent animationType="fade" statusBarTranslucent>
-      {/* 화면 어디든 터치하면 닫힘 */}
-      <Pressable style={styles.overlay} onPress={onClose}>
-        {/* Pressable 터치가 내부 컨텐츠에 전달되지 않게 */}
+    <View style={styles.root} pointerEvents="box-none">
+      {/* dim overlay */}
+      <Pressable style={styles.overlay} onPress={onClose} />
+
+      {/* popup */}
+      <View style={styles.popupWrap} pointerEvents="box-none">
         <Pressable style={styles.popup} onPress={() => {}}>
           <View style={styles.content}>
-            <View style={styles.iconBox}>
-              {icon}
-            </View>
+            <View style={styles.iconBox}>{icon}</View>
             <Text style={styles.text}>{message}</Text>
           </View>
         </Pressable>
-      </Pressable>
-    </Modal>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  root: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 999999,
+    elevation: 999999,
+  },
   overlay: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'transparent', // 에러팝업은 딤 없어도 되면 투명
+  },
+  popupWrap: {
+    ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -47,10 +51,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(31,31,31,0.9)',
     paddingVertical: 16,
     paddingHorizontal: 12,
-  } as ViewStyle,
+  },
   content: {
     alignItems: 'center',
-    gap: 6,                  
+    gap: 6,
   },
   iconBox: {
     width: 20,
@@ -62,6 +66,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: FONT_SIZES.title3,
     fontFamily: FONTS.pretendard.bold,
-    color: COLORS.white,     
+    color: COLORS.white,
   },
 });

@@ -10,6 +10,8 @@ import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RootNavigator } from './src/navigation/RootNavigator';
 import { ErrorPopupProvider } from './src/components/popup/ErrorPopupProvider';
+import { ConfirmProvider } from './src/components/popup/ConfirmProvider';
+
 
 
 function App() {
@@ -17,7 +19,9 @@ function App() {
     <SafeAreaProvider>
       <StatusBar barStyle="dark-content" />
       <ErrorPopupProvider>
-        <RootNavigator />
+        <ConfirmProvider>
+          <RootNavigator />
+        </ConfirmProvider>
       </ErrorPopupProvider>
     </SafeAreaProvider>
   );
