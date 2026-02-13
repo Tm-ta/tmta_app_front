@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,21 +6,23 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Screen } from '../../components/Screen';
 import { Plus } from 'lucide-react-native';
 import {
   COLORS,
   FONTS,
   FONT_SIZES,
   MOCK_GROUPS,
-  CATEGORIES,
+  // CATEGORIES,
 } from '../../constants';
 import { GroupCard } from './components/GroupCard';
 
+import { api } from '../../api/client';
+
 export function GroupListScreen({ navigation }: any) {
-  const [selectedTab, setSelectedTab] = useState<'약속' | '모임'>('모임');
+  const [selectedTab, setSelectedTab] = useState<"약속" | "모임">("모임");
   const [selectedFilter, setSelectedFilter] = useState('전체');
-  const [selectedCategory, setSelectedCategory] = useState('전체');
+  // const [selectedCategory, setSelectedCategory] = useState('전체');
 
   const filteredGroups = MOCK_GROUPS.filter(group => {
     if (
@@ -29,18 +31,29 @@ export function GroupListScreen({ navigation }: any) {
     ) {
       return false;
     }
-    if (selectedCategory !== '전체' && group.category !== selectedCategory) {
-      return false;
-    }
-    return group.type === selectedTab;
+    // if (selectedCategory !== '전체' && group.category !== selectedCategory) {
+    //   return false;
+    // }
+    return group.type === "모임";
   });
 
+  useEffect(() => {
+  (async () => {
+    try {
+      const res = await api.get('/api/v1/team'); 
+      console.log('OK', res.data);
+    } catch (e) {
+      console.log('FAIL', e);
+    }
+  })();
+}, []);
+
   return (
-    <SafeAreaView style={styles.container}>
+    <Screen style={styles.container}>
       <View style={styles.content}>
         {/* Header Tabs */}
         <View style={styles.headerTabs}>
-          <TouchableOpacity onPress={() => setSelectedTab('약속')}>
+          {/* <TouchableOpacity onPress={() => setSelectedTab('약속')}>
             <Text
               style={[
                 styles.headerTab,
@@ -49,7 +62,7 @@ export function GroupListScreen({ navigation }: any) {
             >
               약속
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity onPress={() => setSelectedTab('모임')}>
             <Text
               style={[
@@ -96,12 +109,12 @@ export function GroupListScreen({ navigation }: any) {
                     styles.filterTextActive,
                 ]}
               >
-                일정 모집 중인 그룹만
+                모집 중인 그룹만
               </Text>
             </TouchableOpacity>
           </View>
-
-          <ScrollView
+          {/* 카테고리 추가 시 살려야 됨 */}
+          {/* <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             style={styles.categoryRow}
@@ -125,7 +138,7 @@ export function GroupListScreen({ navigation }: any) {
                 </Text>
               </TouchableOpacity>
             ))}
-          </ScrollView>
+          </ScrollView> */}
         </View>
 
         {/* Group List */}
@@ -152,14 +165,14 @@ export function GroupListScreen({ navigation }: any) {
           <Plus color={COLORS.white} size={32} strokeWidth={2.5} />
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    // backgroundColor: COLORS.white,
   },
   content: {
     flex: 1,
@@ -195,13 +208,13 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   filterChipActive: {
-    backgroundColor: COLORS.white,
-    borderColor: COLORS.gray['300'],
+    backgroundColor: COLORS.main.point,
+    // borderColor: COLORS.gray['300'],
   },
   filterText: {
     fontSize: FONT_SIZES.title5,
-    fontFamily: FONTS.pretendard.bold,
-    color: COLORS.text.primary,
+    fontFamily: FONTS.pretendard.medium,
+    color: COLORS.gray['700'], // 추후 수정 필요
   },
   filterTextActive: {
     color: COLORS.text.primary,
@@ -233,7 +246,8 @@ const styles = StyleSheet.create({
   groupList: {
     flex: 1,
     paddingHorizontal: 20,
-    marginTop: 30,
+    marginTop: 20,
+    gap: 12
   },
   fab: {
     position: 'absolute',
@@ -242,7 +256,7 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: COLORS.main.normal,
+    backgroundColor: COLORS.main.point,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',

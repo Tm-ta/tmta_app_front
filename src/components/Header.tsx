@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { ChevronLeft, MoreVertical } from 'lucide-react-native';
+// import { ChevronLeft, MoreVertical } from 'lucide-react-native';
 import { COLORS, FONTS, FONT_SIZES } from '../constants';
-import ListIcon from '../assets/icons/List.svg';
+import ShareIcon from '../assets/icons/Share.svg';
+import ChevronLeft from '../assets/icons/Chevron-left.svg'
 
 type HeaderProps = {
   title?: string;
@@ -24,7 +25,7 @@ export function Header({
       <View style={styles.leftSection}>
         {showBack && (
           <TouchableOpacity onPress={onBackPress} style={styles.iconButton}>
-            <ChevronLeft color={COLORS.text.primary} size={24} />
+            <ChevronLeft width={24} height={24} fill={COLORS.text.primary} />
           </TouchableOpacity>
         )}
       </View>
@@ -37,7 +38,7 @@ export function Header({
         {showMenu && (
           <TouchableOpacity onPress={onMenuPress} style={styles.iconButton}>
             {/* <MoreVertical color={COLORS.text.primary} size={24} /> */}
-            <ListIcon width={24} height={24} fill={COLORS.text.primary} />
+            <ShareIcon width={24} height={24} />
           </TouchableOpacity>
         )}
       </View>
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.main.background,
   },
   leftSection: {
     width: 40,
@@ -67,10 +68,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   iconButton: {
-    padding: 8,
+    // padding: 8,
   },
   title: {
-    fontSize: FONT_SIZES.title,
+    fontSize: FONT_SIZES.title2,
     fontFamily: FONTS.pretendard.bold,
     color: COLORS.text.primary,
   },

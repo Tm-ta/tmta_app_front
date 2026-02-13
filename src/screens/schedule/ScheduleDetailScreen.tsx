@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Users } from 'lucide-react-native';
+// import { Users } from 'lucide-react-native';
 import { COLORS, FONTS, FONT_SIZES, MOCK_VOTED_MEMBERS, MOCK_SCHEDULES } from '../../constants';
 import { Header, Button } from '../../components';
 import { getAvatarUrl } from '../../utils';
@@ -80,9 +80,9 @@ export function ScheduleDetailScreen({ navigation, route }: any) {
 
       <View style={styles.footer}>
         <Button
-          title="투표하러 가기"
+          title="일정 등록하러 가기"
           onPress={() => navigation.navigate('Vote', { scheduleId })}
-          variant="outline"
+          variant="primary"
         />
       </View>
     </SafeAreaView>
@@ -92,7 +92,7 @@ export function ScheduleDetailScreen({ navigation, route }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.main.background,
   },
   content: {
     flex: 1,
@@ -108,22 +108,22 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   title: {
-    fontSize: FONT_SIZES.title,
+    fontSize: FONT_SIZES.title2,
     fontFamily: FONTS.pretendard.bold,
     color: COLORS.text.primary,
   },
   badge: {
-    backgroundColor: COLORS.main.light,
+    backgroundColor: COLORS.main.point,
     borderWidth: 0.2,
-    borderColor: COLORS.main.normal,
+    borderColor: COLORS.main.point,
     paddingHorizontal: 10,
     paddingVertical: 4,
-    borderRadius: 10,
+    borderRadius: 20,
   },
   badgeText: {
     fontSize: FONT_SIZES.title5,
     fontFamily: FONTS.pretendard.medium,
-    color: COLORS.main.normal,
+    color: COLORS.white,
   },
   details: {
     gap: 2,
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray['300'],
   },
   sectionTitle: {
-    fontSize: FONT_SIZES.title,
+    fontSize: FONT_SIZES.title2,
     fontFamily: FONTS.pretendard.bold,
     color: COLORS.text.primary,
     marginBottom: 16,

@@ -38,6 +38,11 @@ export type VotedMember = {
 };
 
 export type RootStackParamList = {
+  //Auth
+  Login : undefined;
+  EmailLogin: undefined;
+  Signup : undefined;
+
   // Group
   GroupList: undefined;
   GroupCreate: undefined;
@@ -49,6 +54,7 @@ export type RootStackParamList = {
   ScheduleDate: { groupId: string };
   ScheduleTime: { groupId: string; selectedDates: string[] };
   ScheduleSettings: { groupId: string; selectedDates: string[]; timeRange: { start: string; end: string } };
+  ScheduleCreated: { scheduleId: string; groupId: string; selectedDates: string[]; timeRange: any; };
   
   // Vote
   Vote: { scheduleId: string };
