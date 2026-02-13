@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 //약속 없을 때 텍스트 띄워야 함
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,22 +9,29 @@ import {
   ScrollView,
 } from 'react-native';
 import { Bell, Users, ChevronDown } from 'lucide-react-native';
+import { Button } from '../../../components';
 import { COLORS, FONTS, FONT_SIZES } from '../../../constants';
 import type { Schedule } from '../../../types';
 import SpeakerIcon from '../../../assets/icons/Speaker.svg';
 import PeopleIcon from '../../../assets/icons/People.svg';
 
-type SchedulesTabProps = {
+import { useErrorPopup } from '../../../components/popup/ErrorPopupProvider';
+import { useConfirm } from '../../../components/popup/ConfirmProvider';
+
+
+type VoteTabProps = {
   schedules: Schedule[];
   onSchedulePress: (scheduleId: string) => void;
 };
 
-export function SchedulesTab({
+export function VoteTab({
   schedules,
   onSchedulePress,
-}: SchedulesTabProps) {
+}: VoteTabProps) {
   const upcomingSchedules = schedules.filter(s => s.isRecruiting);
   const pastSchedules = schedules.filter(s => !s.isRecruiting);
+  const { showErrorPopup } = useErrorPopup();
+  const { showConfirm } = useConfirm();
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -35,6 +42,34 @@ export function SchedulesTab({
           <Text style={styles.viewModeText}>캘린더형으로 보기</Text>
         </TouchableOpacity> */}
       </View>
+      <View style={styles.buttonList}>
+        <Button
+            title="로그아웃"
+            onPress={() =>
+            showConfirm('logout', {
+                onLeftPress: () => console.log('logout ok'),
+            })
+            }
+        />
+        <Button
+            title="회원탈퇴"
+            onPress={() =>
+            showConfirm('withdraw', {
+                onRightPress: () => console.log('withdraw ok'),
+            })
+            }
+        />
+        <Button
+            title="모임 나가기"
+            onPress={() =>
+            showConfirm('leaveGroup', {
+                onLeftPress: () => console.log('leaveGroup ok'),
+            })
+            }
+        />
+        <Button title='Error' onPress={() => showErrorPopup('CHECK_NETWORK_AND_RETRY')}/>
+
+        </View>
 
       {/* Upcoming Schedules */}
       <View style={styles.section}>
@@ -226,4 +261,8 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.pretendard.bold,
     color: COLORS.text.primary,
   },
+  buttonList: {
+    gap: 12,
+  }
 });
+

@@ -73,3 +73,10 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# --- RN hard rules ---
+android/local.properties
+android/**/local.properties
+android/.gradle/
+android/**/build/
+ios/build/

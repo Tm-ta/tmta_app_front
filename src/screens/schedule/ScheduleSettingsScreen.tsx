@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
@@ -10,7 +11,7 @@ import {
   Keyboard,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ChevronLeft } from 'lucide-react-native';
+import ChevronLeft from '../../assets/icons/Chevron-left.svg';
 import CalendarIcon from '../../assets/icons/Calendar.svg';
 import CheckCircleIcon from '../../assets/icons/Check-circle.svg';
 import MapPinIcon from '../../assets/icons/Map-pin.svg';
@@ -119,8 +120,11 @@ export function ScheduleSettingsScreen({ navigation, route }: any) {
   };
 
   const handleNext = () => {
-    // Navigate to VoteScreen with selected dates and time range
-    navigation.navigate('Vote', {
+    // 나중에 여기서 "약속 생성 API" 호출하고 scheduleId 받아오면 베스트
+    const scheduleId = 'temp_schedule_id';
+
+    navigation.navigate('ScheduleCreated', {
+      scheduleId,
       groupId,
       selectedDates,
       timeRange,
@@ -131,7 +135,7 @@ export function ScheduleSettingsScreen({ navigation, route }: any) {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <ChevronLeft color={COLORS.text.primary} size={36} />
+          <ChevronLeft color={COLORS.text.primary} width={24} height={24} />
         </TouchableOpacity>
       </View>
 
@@ -220,7 +224,7 @@ const styles = StyleSheet.create({
   titleInput: {
     fontSize: FONT_SIZES.heading,
     fontFamily: FONTS.pretendard.extraBold,
-    color: COLORS.black,
+    color: COLORS.black['500'],
     paddingVertical: 16,
     marginBottom: 20,
   },
@@ -248,7 +252,7 @@ const styles = StyleSheet.create({
   settingLabel: {
     fontSize: FONT_SIZES.body1,
     fontFamily: FONTS.pretendard.regular,
-    color: COLORS.black['900'],
+    color: COLORS.black['500'],
   },
   settingValue: {
     alignItems: 'flex-end',

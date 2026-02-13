@@ -4,7 +4,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../types';
 
 // Auth Screens
+<<<<<<< HEAD
 import { LoginScreen, EmailLoginScreen } from '../screens/auth';
+=======
+import { LoginScreen, EmailLoginScreen, SignupScreen } from '../screens/auth';
+>>>>>>> feature/dani
 
 // Group Screens
 import { GroupListScreen } from '../screens/group/GroupListScreen';
@@ -17,6 +21,7 @@ import { ScheduleDetailScreen } from '../screens/schedule/ScheduleDetailScreen';
 import { ScheduleDateScreen } from '../screens/schedule/ScheduleDateScreen';
 import { ScheduleTimeScreen } from '../screens/schedule/ScheduleTimeScreen';
 import { ScheduleSettingsScreen } from '../screens/schedule/ScheduleSettingsScreen';
+import { ScheduleCreatedScreen } from '../screens/schedule/ScheduleCreatedScreen';
 
 // Vote Screens
 import { VoteScreen } from '../screens/vote/VoteScreen';
@@ -27,9 +32,15 @@ export function RootNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
+<<<<<<< HEAD
         // key="force-login" 
         // initialRouteName="Login" 
         initialRouteName="GroupList"
+=======
+        key="force-login" 
+        initialRouteName="Login" 
+        // initialRouteName="GroupList"
+>>>>>>> feature/dani
         screenOptions={{
           headerShown: false,
           contentStyle: { backgroundColor: '#FFFFFF' },
@@ -39,6 +50,10 @@ export function RootNavigator() {
         {/* Auth Screens */}
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="EmailLogin" component={EmailLoginScreen} />
+<<<<<<< HEAD
+=======
+        <Stack.Screen name="Signup" component={SignupScreen} />
+>>>>>>> feature/dani
 
         {/* Group Screens */}
         <Stack.Screen name="GroupList" component={GroupListScreen} />
@@ -50,10 +65,8 @@ export function RootNavigator() {
         <Stack.Screen name="ScheduleDetail" component={ScheduleDetailScreen} />
         <Stack.Screen name="ScheduleDate" component={ScheduleDateScreen} />
         <Stack.Screen name="ScheduleTime" component={ScheduleTimeScreen} />
-        <Stack.Screen
-          name="ScheduleSettings"
-          component={ScheduleSettingsScreen}
-        />
+        <Stack.Screen name="ScheduleSettings" component={ScheduleSettingsScreen} />
+        <Stack.Screen name="ScheduleCreated" component={ScheduleCreatedScreen} />
 
         {/* Vote Screens */}
         <Stack.Screen name="Vote" component={VoteScreen} />

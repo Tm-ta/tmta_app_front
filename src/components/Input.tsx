@@ -76,9 +76,10 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 48,
     borderWidth: 1,
-    borderColor: COLORS.gray['300'],
+    borderColor: COLORS.gray[200],
+    backgroundColor: COLORS.gray['200'],
     borderRadius: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal: 16,
     paddingVertical: 12,
     fontSize: FONT_SIZES.body1,
     fontFamily: FONTS.pretendard.regular,
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     paddingRight: 60,
   },
   inputError: {
-    borderColor: '#FF0000',
+    borderColor: '#FC0004',
   },
   count: {
     position: 'absolute',
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: FONT_SIZES.body4,
     fontFamily: FONTS.pretendard.regular,
-    color: '#FF0000',
+    color: '#FC0004',
   },
 });
 
