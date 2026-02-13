@@ -40,7 +40,7 @@ export function GroupListScreen({ navigation }: any) {
   useEffect(() => {
   (async () => {
     try {
-      const res = await api.get('/api/v1/team'); 
+      const res = await api.get('/api/v1/teams'); 
       console.log('OK', res.data);
     } catch (e) {
       console.log('FAIL', e);

@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    backgroundColor: COLORS.main.background,
+    // backgroundColor: COLORS.main.background,
   },
   leftSection: {
     width: 40,
