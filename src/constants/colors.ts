@@ -58,7 +58,7 @@ export const COLORS = {
     primary: BLACK[500],
     secondary: GRAY[700],
     tertiary: '#C1C1C1',
-    placeholder: '#9B9B9D',
+    placeholder: '#8d8d8d',
   },
 
     // Main
