@@ -4,55 +4,72 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import PeopleIcon from '../../../assets/icons/People-gray.svg';
 import { COLORS, FONTS, FONT_SIZES } from '../../../constants';
 import { getAvatarUrl } from '../../../utils';
-import type { Group } from '../../../types';
+import type { TeamListItem } from '../../../api/team';
 
 type GroupCardProps = {
-  group: Group;
+  team: TeamListItem;
   onPress: () => void;
 };
 
-export function GroupCard({ group, onPress }: GroupCardProps) {
-  // 표시할 아바타 개수 (최대 3개)
-  const displayCount = Math.min(group.recentMembers.length, 3);
+export function GroupCard({ team, onPress }: GroupCardProps) {
+  // 표시할 아바타 개수 (memberCount, memberProfiles 기준, 최대 3개)
+  const displayCount = Math.min(
+    3,
+    team.memberCount,
+    team.memberProfiles.length,
+  );
 
-  // 남은 멤버 수 계산
-  const remainingCount = group.memberCount - displayCount;
+  // "+N" 표시용 남은 멤버 수 (명시 요구사항: memberCount - 3)
+  const remainingCount = team.memberCount - 3;
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image
-        source={{ uri: getAvatarUrl(82, group.id) }}
+        source={{ uri: getAvatarUrl(82, team.groupId) }}
         style={styles.imageContainer}
       />
       <View style={styles.contentContainer}>
-        {group.isRecruitingSchedule && (
+        {team.state === 'RECRUITING' && (
           <View style={styles.badge}>
             <Text style={styles.badgeText}>약속 모집 중</Text>
           </View>
         )}
-        <Text style={styles.name}>{group.name}</Text>
+        <Text style={styles.name}>{team.groupName}</Text>
         <View style={styles.infoRow}>
           <View style={styles.infoItem}>
             <PeopleIcon width={16} height={16} fill={COLORS.text.primary} />
-            <Text style={styles.infoText}>{group.memberCount}명</Text>
+            <Text style={styles.infoText}>{team.memberCount}명</Text>
           </View>
-          {group.recentMembers.length > 0 && (
+          {displayCount > 0 && (
             <View style={styles.membersPreview}>
               <View style={styles.memberAvatars}>
-                {group.recentMembers.slice(0, 3).map((memberId, index) => (
-                  <Image
-                    key={index}
-                    source={{ uri: getAvatarUrl(20, memberId) }}
-                    style={[
-                      styles.avatar,
-                      {
-                        marginLeft: index === 0 ? 0 : -8,
-                      },
-                    ]}
-                  />
-                ))}
+                {team.memberProfiles.slice(0, displayCount).map((url, index) => {
+                  const hasProfile = !!url;
+                  return hasProfile ? (
+                    <Image
+                      key={`${url}-${index}`}
+                      source={{ uri: url }}
+                      style={[
+                        styles.avatar,
+                        {
+                          marginLeft: index === 0 ? 0 : -8,
+                        },
+                      ]}
+                    />
+                  ) : (
+                    <View
+                      key={`placeholder-${index}`}
+                      style={[
+                        styles.avatar,
+                        {
+                          marginLeft: index === 0 ? 0 : -8,
+                        },
+                      ]}
+                    />
+                  );
+                })}
               </View>
-              {remainingCount > 0 && (
+              {team.memberCount > 3 && remainingCount > 0 && (
                 <Text style={styles.moreMembers}>+{remainingCount}</Text>
               )}
             </View>

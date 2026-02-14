@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -7,17 +8,28 @@ import {
   Keyboard,
   TouchableOpacity,
   Image,
-  Alert,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { COLORS, FONTS, FONT_SIZES } from '../../constants';
 import { Button, Header } from '../../components';
 
+import { useErrorPopup } from '../../components/popup/ErrorPopupProvider';
+import { createTeam } from '../../api/team';
+
+const MAX_GROUP_NAME = 20;
+
 export function GroupCreateScreen({ navigation }: any) {
   const [groupName, setGroupName] = useState('');
   const [groupImage, setGroupImage] = useState<string | null>(null);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+
+  const {showErrorPopup} = useErrorPopup();
+
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     const keyboardWillShow = Keyboard.addListener('keyboardDidShow', () => {
@@ -42,20 +54,36 @@ export function GroupCreateScreen({ navigation }: any) {
         maxHeight: 500,
       },
       response => {
-        if (response.didCancel) {
-          console.log('User cancelled image picker');
-        } else if (response.errorCode) {
-          Alert.alert('오류', '이미지를 불러올 수 없습니다.');
-        } else if (response.assets && response.assets[0]) {
-          setGroupImage(response.assets[0].uri || null);
+        if (response.didCancel) return;
+        if (response.errorCode) {
+          showErrorPopup('IMAGE_PICK_FAILED');
+          return;
+        }
+        if (response.assets?.[0]?.uri) {
+          setGroupImage(response.assets[0].uri);
         }
       },
     );
   };
 
-  const handleNext = () => {
-    if (groupName.trim()) {
-      navigation.navigate('GroupProfile', { groupName });
+  const handleNext = async () => {
+    const name = groupName.trim();
+    if (!name || loading) return;
+
+    if (name.length > MAX_GROUP_NAME) {
+      showErrorPopup('GROUP_NAME_TOO_LONG');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res = await createTeam(name);
+      // 2번 API 결과의 groupId를 넘겨줌 (teamId로 사용)
+      navigation.navigate('GroupProfile', { teamId: res.groupId });
+    } catch (e) {
+      showErrorPopup('GROUP_CREATE_FAILED');
+    } finally {
+      setLoading(false);
     }
   };
 

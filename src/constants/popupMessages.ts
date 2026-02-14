@@ -25,10 +25,15 @@ export const POPUP_MESSAGE = {
   GROUP_FULL: '모임 인원이 가득 찼어요',
   INVITE_CODE_EXPIRED: '초대가 만료된 코드예요',
   INVALID_FORMAT: '형식이 올바르지 않아요',
+  IMAGE_PICK_FAILED: `이미지를 불러올 수 없어요 \n ${RETRY}`,
+  GROUP_CREATE_FAILED: `모임 생성에 실패했어요 \n ${RETRY}`,
+  GROUP_JOIN_FAILED: `모임 참여에 실패했어요 \n ${RETRY}`,
 
   // 모임 상세 
   GROUP_LIST_LOAD_FAILED: `목록을 불러오지 못했어요 \n ${RETRY}`,
   CANNOT_LEAVE_BEFORE_TRANSFER_OWNER: '모임장을 다른 멤버에게 위임한 뒤 \n 나갈 수 있어요',
+  GROUP_LEAVE_FAILED: `모임 나가기에 실패했어요 \n ${RETRY}`,
+  MEMBER_KICK_FAILED: `멤버 추방에 실패했어요 \n ${RETRY}`,
 
   // 약속 생성 
   APPOINTMENT_NAME_REQUIRED: '약속이름을 입력해주세요',

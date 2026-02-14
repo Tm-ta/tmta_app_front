@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ChevronLeft } from 'lucide-react-native';
 import { COLORS, FONTS, FONT_SIZES } from '../../constants';
 import { Button } from '../../components';
+import { useErrorPopup } from '../../components/popup/ErrorPopupProvider';
 
 const TIME_PRESETS = ['하루종일', '9시~18시', '12시~24시', '18시~24시'];
 const ITEM_HEIGHT = 44;
@@ -22,6 +23,7 @@ export function ScheduleTimeScreen({ navigation, route }: any) {
   const [selectedPreset, setSelectedPreset] = useState('');
   const startScrollRef = useRef<ScrollView | null>(null);
   const endScrollRef = useRef<ScrollView | null>(null);
+  const { showErrorPopup } = useErrorPopup();
 
   useEffect(() => {
     // 초기 스크롤 위치 설정 (초기 마운트시에만 실행)
@@ -97,6 +99,11 @@ export function ScheduleTimeScreen({ navigation, route }: any) {
   };
 
   const handleNext = () => {
+    if (startTime >= endTime) {
+      showErrorPopup('START_TIME_MUST_BE_BEFORE_END_TIME');
+      return;
+    }
+
     navigation.navigate('ScheduleSettings', {
       groupId,
       selectedDates,

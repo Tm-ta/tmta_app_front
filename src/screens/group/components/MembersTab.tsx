@@ -1,20 +1,64 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import { COLORS, FONTS, FONT_SIZES } from '../../../constants';
 import { getAvatarUrl } from '../../../utils';
 import type { Member } from '../../../types';
+import { useConfirm } from '../../../components/popup/ConfirmProvider';
+import { kickMember } from '../../../api/team';
+import { useErrorPopup } from '../../../components/popup/ErrorPopupProvider';
 
 import Dots from '../../../assets/icons/Dots.svg';
 
 type MembersTabProps = {
   members: Member[];
+  memberCount?: number;
+  groupId: string;
 };
 
-export function MembersTab({ members }: MembersTabProps) {
+export function MembersTab({ members, memberCount, groupId }: MembersTabProps) {
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const { showConfirm } = useConfirm();
+  const { showErrorPopup } = useErrorPopup();
+
+  const countText = memberCount ?? members.length;
+
+  const openMenu = (member: Member) => {
+    setSelectedMember(member);
+    setMenuVisible(true);
+  };
+
+  const closeMenu = () => {
+    setMenuVisible(false);
+    setSelectedMember(null);
+  };
+
+  const handleKick = () => {
+    if (!selectedMember) return;
+
+    showConfirm('deleteMember', {
+      onLeftPress: async () => {
+        try {
+          await kickMember(String(groupId), String(selectedMember.id));
+        } catch {
+          showErrorPopup('MEMBER_KICK_FAILED');
+        }
+      },
+    });
+    closeMenu();
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
-        멤버 <Text style={styles.count}>{members.length}</Text>
+        멤버 <Text style={styles.count}>{countText}</Text>
       </Text>
 
       <View style={styles.memberList}>
@@ -35,10 +79,7 @@ export function MembersTab({ members }: MembersTabProps) {
             <TouchableOpacity
               style={styles.moreButton}
               activeOpacity={0.7}
-              onPress={() => {
-                // TODO: 나중에 팝업/액션시트 - 추방
-                // openMemberMenu(member)
-              }}
+              onPress={() => openMenu(member)}
               hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
             >
               <Dots width={24} height={24} />
@@ -46,6 +87,21 @@ export function MembersTab({ members }: MembersTabProps) {
           </View>
         ))}
       </View>
+
+      {menuVisible && (
+        <View style={styles.menuOverlay} pointerEvents="box-none">
+          <Pressable style={styles.menuDim} onPress={closeMenu} />
+
+          <View style={styles.menuSheet}>
+            <TouchableOpacity style={styles.menuItem} onPress={handleKick}>
+              <Text style={styles.menuItemTextDanger}>추방하기</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuItem} onPress={closeMenu}>
+              <Text style={styles.menuItemText}>닫기</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </View>
   );
 }
@@ -103,6 +159,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  // (B) Image 방식일 때만 필요
-  // moreIcon: { width: 24, height: 24 },
+  menuOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+  },
+  menuDim: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  menuSheet: {
+    width: '100%',
+    backgroundColor: COLORS.white,
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    paddingBottom: 24,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+  },
+  menuItem: {
+    paddingVertical: 12,
+  },
+  menuItemText: {
+    fontSize: FONT_SIZES.body2,
+    fontFamily: FONTS.pretendard.medium,
+    color: COLORS.text.primary,
+  },
+  menuItemTextDanger: {
+    fontSize: FONT_SIZES.body2,
+    fontFamily: FONTS.pretendard.medium,
+    color: COLORS.black['500'],
+  },
 });

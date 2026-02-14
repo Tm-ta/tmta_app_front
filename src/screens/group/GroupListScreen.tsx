@@ -12,41 +12,38 @@ import {
   COLORS,
   FONTS,
   FONT_SIZES,
-  MOCK_GROUPS,
+  // MOCK_GROUPS,
   // CATEGORIES,
 } from '../../constants';
 import { GroupCard } from './components/GroupCard';
-
-import { api } from '../../api/client';
+import { getTeams, type TeamListItem } from '../../api/team';
+import { useErrorPopup } from '../../components/popup/ErrorPopupProvider';
 
 export function GroupListScreen({ navigation }: any) {
   const [selectedTab, setSelectedTab] = useState<"약속" | "모임">("모임");
   const [selectedFilter, setSelectedFilter] = useState('전체');
   // const [selectedCategory, setSelectedCategory] = useState('전체');
-
-  const filteredGroups = MOCK_GROUPS.filter(group => {
-    if (
-      selectedFilter === '일정 모집 중인 그룹만' &&
-      !group.isRecruitingSchedule
-    ) {
-      return false;
-    }
-    // if (selectedCategory !== '전체' && group.category !== selectedCategory) {
-    //   return false;
-    // }
-    return group.type === "모임";
-  });
+  const [teams, setTeams] = useState<TeamListItem[]>([]);
+  const { showErrorPopup } = useErrorPopup();
 
   useEffect(() => {
-  (async () => {
-    try {
-      const res = await api.get('/api/v1/team'); 
-      console.log('OK', res.data);
-    } catch (e) {
-      console.log('FAIL', e);
+    (async () => {
+      try {
+        const list = await getTeams();
+        setTeams(list);
+      } catch {
+        showErrorPopup('GROUP_LIST_LOAD_FAILED');
+      }
+    })();
+  }, [showErrorPopup]);
+
+  const filteredTeams = teams.filter(team => {
+    // "일정 모집 중인 그룹만" 필터: 백엔드 state 값에 따라 수정 필요
+    if (selectedFilter === '일정 모집 중인 그룹만') {
+      return team.state === 'RECRUITING'; // TODO: 실제 state 값에 맞게 조정
     }
-  })();
-}, []);
+    return true;
+  });
 
   return (
     <Screen style={styles.container}>
@@ -146,18 +143,18 @@ export function GroupListScreen({ navigation }: any) {
           style={styles.groupList}
           showsVerticalScrollIndicator={false}
         >
-          {filteredGroups.map(group => (
+          {filteredTeams.map(team => (
             <GroupCard
-              key={group.id}
-              group={group}
+              key={team.groupId}
+              team={team}
               onPress={() =>
-                navigation.navigate('GroupDetail', { groupId: group.id })
+                navigation.navigate('GroupDetail', { groupId: team.groupId })
               }
             />
           ))}
         </ScrollView>
 
-        {/* FAB */}
+        {/* FAB - 모임 만들기 */}
         <TouchableOpacity
           style={styles.fab}
           onPress={() => navigation.navigate('GroupCreate')}
@@ -172,7 +169,7 @@ export function GroupListScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: COLORS.white,
+    // backgroundColor: COLORS.white
   },
   content: {
     flex: 1,
