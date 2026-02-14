@@ -59,6 +59,7 @@ export const COLORS = {
     secondary: GRAY[700],
     tertiary: '#C1C1C1',
     placeholder: '#8d8d8d',
+    kakao: 'rgba(0,0,0,0.85)',
   },
 
     // Main

@@ -1,100 +1,147 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useCallback , useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Header, Input, Button } from '../../components';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { RootStackParamList} from '../../types';
+import { Screen } from '../../components/Screen';
+import { Button } from '../../components';
 import { COLORS, FONTS, FONT_SIZES } from '../../constants';
+import { LoginButtons } from './components/LoginButtons';
 
-export function LoginScreen() {
-    const [id, setId] = useState('');
-    const [password, setPassword] = useState('');
+type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
-    const handleLogin = () => {
-        console.log('login', { id, password });
-    };
+export function LoginScreen ({ navigation }: Props){
+    const handleKakaoLogin = useCallback(() => {
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <Header
-                title='이메일로 계속하기'
-                showBack
-                onBackPress={() => console.log('back')}
-            />
+    }, []);
 
-            <View style={styles.form}>
-                <Input
-                    label="아이디"
-                    placeholder='아이디를 입력해주세요'
-                    value={id}
-                    onChangeText={setId}
-                    autoCapitalize='none'
-                    variant='auth'
+    const handleGoogleLogin = useCallback(() => {
+
+    }, []);
+
+    const handleAppleLogin = useCallback(() => {
+
+    }, []);
+
+    const handleNaverLogin = useCallback(() => {
+
+    }, []);
+
+    const goEmailLogin = useCallback(() => {
+        navigation.navigate('EmailLogin');
+    }, [navigation]);
+
+    const goSignup = useCallback(() => {
+        navigation.navigate('Signup');
+    }, [navigation]);
+
+    const handleGuestStart = useCallback(() => {
+        navigation.replace('GroupList');
+    }, [navigation]);
+
+
+    return(
+        <Screen style={styles.container}>
+             <View style={styles.content}>
+                {/* 카카오 로그인*/}
+                <TouchableOpacity
+                    style={styles.kakaoButton}
+                    onPress={handleKakaoLogin}
+                    activeOpacity={0.8}
+                >
+                    <View style={styles.kakaoContent}>
+                        <Image
+                            source={require('../../assets/icons/kakao.png')}
+                            style={styles.kakaoIcon}
+                        />
+                        <Text style={styles.kakaoText}>카카오 로그인</Text>
+                    </View>
+                </TouchableOpacity>
+
+                {/* 소셜 아이콘 버튼 묶음 */}
+                <LoginButtons
+                    onGooglePress={handleGoogleLogin}
+                    onApplePress={handleAppleLogin}
+                    onNaverPress={handleNaverLogin}
                 />
-                <Input
-                    label="비밀번호"
-                    placeholder='비밀번호를 입력해주세요'
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
-                    variant='auth'
-                />
 
-                <View style={styles.subActionRow}>
-                    <TouchableOpacity onPress={() => console.log('계정 찾기')}> 
-                        <Text style={styles.subActionText}>계정 찾기</Text>
+                <View style={styles.linkRow}>
+                    <TouchableOpacity onPress={goEmailLogin}>
+                        <Text style={styles.linkText}>이메일로 로그인</Text>
                     </TouchableOpacity>
 
-                    <Text style={styles.subActionDivider}>|</Text>
+                    <Text style={styles.linkText}>|</Text>
 
-                    <TouchableOpacity onPress={() => console.log('회원 가입')}>
-                        <Text style={styles.subActionText}>회원가입</Text>
+                    <TouchableOpacity onPress={goSignup}>
+                        <Text style={styles.linkText}>회원가입</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
-            
 
-            <View style={styles.footer}>
-                <Button
-                    title='로그인'
-                    onPress={()=>{}}
-                    disabled={!id.trim() || !password.trim()}
-                />
-            </View>
-        </SafeAreaView>
+                <TouchableOpacity onPress={handleGuestStart} style={styles.guestBtn}>
+                    <Text style={styles.guestText}>게스트로 시작하기</Text>
+                </TouchableOpacity>
+             </View>
+        </Screen>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.white,
+        backgroundColor: COLORS.main.background,
     },
-    form: {
+    content : {
         flex: 1,
         paddingHorizontal: 20,
-        paddingTop: 40,
-        gap: 24,
-    },
-    subActionRow: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         alignItems: 'center',
+    },
+    kakaoButton: {
+        width: 335,
+        height: 52,
+        borderRadius: 12,
+        backgroundColor: '#FEE500',
+        justifyContent: 'center',
+        marginBottom: 45,
+    },
+    kakaoContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
         gap: 8,
     },
-    subActionText: {
-        fontSize: FONT_SIZES.body4, // 12
+    kakaoIcon: {
+        width: 19.2,
+        height: 19.2,
+        resizeMode: 'contain',
+    },
+    kakaoText: {
+        fontSize: FONT_SIZES.body1,
+        fontFamily: FONTS.pretendard.semiBold,
+        color: COLORS.text.kakao,
+    },
+    linkRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap : 10,
+        marginTop: 20,
+    },
+    linkText: {
+        fontSize : FONT_SIZES.body4,
         fontFamily: FONTS.pretendard.regular,
-        color: COLORS.gray['700'],
+        color: COLORS.black[300],
     },
-    subActionDivider: {
-        fontSize: FONT_SIZES.body4,
-        fontFamily: FONTS.pretendard.regular,
-        color: COLORS.gray['700'],
+    guestBtn: {
+        width: '100%',
+        paddingVertical: 18,
+        alignItems: 'center',
+        marginTop: 60, //여백 재조정 필요
     },
-    footer: {
-        // paddingHorizontal: 20,
-        // paddingBottom: 34,
-        paddingHorizontal: 16,
-        paddingVertical: 10,
-    },
-  
-});
+    guestText: {
+        fontSize: FONT_SIZES.title3,
+        fontFamily: FONTS.pretendard.bold,
+        color: COLORS.black[300],
+    }
+
+
+})
