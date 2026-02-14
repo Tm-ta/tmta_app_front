@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textPrimary: {
-    color: COLORS.text.primary,
+    color: COLORS.white,
   },
   textSecondary: {
     color: COLORS.text.primary,

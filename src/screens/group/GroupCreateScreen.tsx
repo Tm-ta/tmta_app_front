@@ -12,7 +12,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { COLORS, FONTS, FONT_SIZES } from '../../constants';
-import { Button, Header } from '../../components';
+import { Button } from '../../components';
 
 export function GroupCreateScreen({ navigation }: any) {
   const [groupName, setGroupName] = useState('');
@@ -61,11 +61,6 @@ export function GroupCreateScreen({ navigation }: any) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header
-        onBackPress={() => navigation.navigate('GroupList')}
-        showMenu
-        onMenuPress={() => {}}
-      />
       <View style={styles.content}>
         <Text style={styles.title}>모임을 시작해봐요!</Text>
 
@@ -109,7 +104,7 @@ export function GroupCreateScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.main.background,
+    backgroundColor: COLORS.white,
   },
   content: {
     flex: 1,
@@ -129,7 +124,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: FONT_SIZES.heading,
     fontFamily: FONTS.pretendard.extraBold,
-    color: COLORS.black['500'],
+    color: COLORS.black,
     textAlign: 'center',
     paddingVertical: 4,
   },
