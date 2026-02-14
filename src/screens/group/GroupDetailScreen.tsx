@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
 import {
   View,
@@ -12,6 +11,7 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import { ChevronRight } from 'lucide-react-native';
 import {
   COLORS,
   FONTS,
@@ -21,31 +21,21 @@ import {
   MOCK_GROUPS,
 } from '../../constants';
 import { getAvatarUrl } from '../../utils';
-import { Button, Header } from '../../components';
+import { Header } from '../../components';
 import { MembersTab } from './components/MembersTab';
 import { SchedulesTab } from './components/SchedulesTab';
 import PeopleIcon from '../../assets/icons/People.svg';
 import CalendarPlusIcon from '../../assets/icons/Calendar-plus.svg';
-import SettingIcon from '../../assets/icons/Setting.svg'
-
-// Error Popup test
-import { useErrorPopup } from '../../components/popup/ErrorPopupProvider';
-import { TestModal } from '../../components/popup/TestModal';
-import { VoteTab } from './components/VoteTab';
 
 type TabType = '멤버' | '일정' | '투표';
 
 export function GroupDetailScreen({ navigation, route }: any) {
   const { groupId } = route.params || {};
-  const [selectedTab, setSelectedTab] = useState<TabType>('일정');
+  const [selectedTab, setSelectedTab] = useState<TabType>('멤버');
   const insets = useSafeAreaInsets();
 
   // groupId로 해당 그룹 찾기
   const group = MOCK_GROUPS.find(g => g.id === groupId) || MOCK_GROUPS[0];
-
-  // Error Popup test
-  const { showErrorPopup } = useErrorPopup();
-  const [testOpen, setTestOpen] = useState(false);
 
   const renderTabContent = () => {
     switch (selectedTab) {
@@ -62,12 +52,9 @@ export function GroupDetailScreen({ navigation, route }: any) {
         );
       case '투표':
         return (
-          <VoteTab
-            schedules={MOCK_SCHEDULES}
-            onSchedulePress={scheduleId =>
-              navigation.navigate('ScheduleDetail', { scheduleId })
-            }
-          />
+          <View style={styles.tabContent}>
+            <Text>투표 탭</Text>
+          </View>
         );
       default:
         return null;
@@ -91,22 +78,22 @@ export function GroupDetailScreen({ navigation, route }: any) {
         <View style={styles.groupDetails}>
           <View style={styles.groupHeader}>
             <Text style={styles.groupName}>{group.name}</Text>
-            <SettingIcon width={17} height={17} />
+            <ChevronRight color={COLORS.text.primary} size={24} />
           </View>
           <View style={styles.groupMeta}>
             <View style={styles.metaItem}>
               <PeopleIcon width={16} height={16} fill={COLORS.text.primary} />
               <Text style={styles.metaText}>{group.memberCount}명</Text>
             </View>
-            {/* <View style={styles.dot} />
-            <Text style={styles.metaText}>{group.category}</Text> */}
+            <View style={styles.dot} />
+            <Text style={styles.metaText}>{group.category}</Text>
           </View>
         </View>
       </View>
 
       {/* Tabs */}
       <View style={styles.tabBar}>
-        {(['일정', '투표', '멤버'] as TabType[]).map(tab => (
+        {(['멤버', '일정', '투표'] as TabType[]).map(tab => (
           <TouchableOpacity
             key={tab}
             style={[styles.tab, selectedTab === tab && styles.tabActive]}
@@ -144,7 +131,7 @@ export function GroupDetailScreen({ navigation, route }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.main.background,
+    backgroundColor: COLORS.white,
   },
   groupInfo: {
     flexDirection: 'row',
@@ -161,7 +148,6 @@ const styles = StyleSheet.create({
   groupDetails: {
     flex: 1,
     gap: 6,
-    justifyContent: 'center'
   },
   groupHeader: {
     flexDirection: 'row',
@@ -169,7 +155,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   groupName: {
-    fontSize: FONT_SIZES.title2,
+    fontSize: FONT_SIZES.title,
     fontFamily: FONTS.pretendard.bold,
     color: COLORS.text.primary,
   },
@@ -226,6 +212,9 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  tabContent: {
+    padding: 20,
   },
   fab: {
     position: 'absolute',

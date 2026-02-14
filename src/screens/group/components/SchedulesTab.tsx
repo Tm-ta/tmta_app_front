@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-//약속 없을 때 텍스트 띄워야 함
 import React from 'react';
 import {
   View,
@@ -28,12 +26,19 @@ export function SchedulesTab({
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      {/* Notice */}
+      <View style={styles.notice}>
+        {/* <Bell color={COLORS.main.normal} size={20} /> */}
+        <SpeakerIcon width={20} height={20} fill={COLORS.main.normal} />
+        <Text style={styles.noticeText}>공지사항</Text>
+      </View>
+
       {/* Calendar View Button */}
       <View style={styles.header}>
         <Text style={styles.sectionTitle}>일정</Text>
-        {/* <TouchableOpacity style={styles.viewModeButton}>
+        <TouchableOpacity style={styles.viewModeButton}>
           <Text style={styles.viewModeText}>캘린더형으로 보기</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </View>
 
       {/* Upcoming Schedules */}
@@ -105,7 +110,6 @@ function ScheduleCard({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white
   },
   notice: {
     flexDirection: 'row',
@@ -132,7 +136,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   sectionTitle: {
-    fontSize: FONT_SIZES.title2,
+    fontSize: FONT_SIZES.title,
     fontFamily: FONTS.pretendard.bold,
     color: COLORS.text.primary,
   },
@@ -152,7 +156,7 @@ const styles = StyleSheet.create({
     marginBottom: 26,
   },
   subsectionTitle: {
-    fontSize: FONT_SIZES.title2,
+    fontSize: FONT_SIZES.title,
     fontFamily: FONTS.pretendard.bold,
     color: COLORS.text.primary,
     marginBottom: 16,
@@ -164,26 +168,15 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   card: {
+    backgroundColor: '#FBFBFC',
+    borderWidth: 1,
+    borderColor: COLORS.gray['400'],
+    borderRadius: 12,
     padding: 20,
     gap: 12,
-    borderColor: '#FF9EB650',
-    borderWidth: 1,
-    borderRadius: 12,
-    backgroundColor: COLORS.white,
-
-    // shadow (iOS)
-    shadowColor: COLORS.pink['200'],
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-
-    // shadow (Android)
-    elevation: 5,
-
-    
   },
   cardTitle: {
-    fontSize: FONT_SIZES.title2,
+    fontSize: FONT_SIZES.title,
     fontFamily: FONTS.pretendard.bold,
     color: COLORS.text.primary,
   },

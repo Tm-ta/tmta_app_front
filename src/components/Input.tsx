@@ -15,7 +15,6 @@ type InputProps = TextInputProps & {
   containerStyle?: ViewStyle;
   maxLength?: number;
   showCount?: boolean;
-  variant?: 'default' | 'auth'; //로그인 input 스타일 추가
 };
 
 export function Input({
@@ -25,13 +24,8 @@ export function Input({
   maxLength,
   showCount,
   value,
-  variant = 'default',
   ...props
 }: InputProps) {
-
-   const placeholderColor =
-    variant === 'auth' ? COLORS.gray['400'] : COLORS.text.placeholder;
-
   return (
     <View style={[styles.container, containerStyle]}>
       {label && <Text style={styles.label}>{label}</Text>}
@@ -39,7 +33,6 @@ export function Input({
         <TextInput
           style={[
             styles.input,
-            variant === 'auth' && styles.inputAuth,
             error && styles.inputError,
             showCount && styles.inputWithCount,
           ]}
@@ -76,26 +69,19 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 48,
     borderWidth: 1,
-    borderColor: COLORS.gray[200],
-    backgroundColor: COLORS.gray['200'],
+    borderColor: COLORS.gray['300'],
     borderRadius: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
     paddingVertical: 12,
     fontSize: FONT_SIZES.body1,
     fontFamily: FONTS.pretendard.regular,
     color: COLORS.text.primary,
   },
-  inputAuth: {
-    height: 56,
-    backgroundColor: COLORS.gray['100'],
-    borderWidth: 0,
-    color: COLORS.black['600'],
-  },
   inputWithCount: {
     paddingRight: 60,
   },
   inputError: {
-    borderColor: '#FC0004',
+    borderColor: '#FF0000',
   },
   count: {
     position: 'absolute',
@@ -107,7 +93,7 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: FONT_SIZES.body4,
     fontFamily: FONTS.pretendard.regular,
-    color: '#FC0004',
+    color: '#FF0000',
   },
 });
 
