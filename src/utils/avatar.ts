@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 /**
  * 랜덤 아바타 이미지 URL을 생성하는 유틸리티 함수
  * @param size 이미지 크기 (px)

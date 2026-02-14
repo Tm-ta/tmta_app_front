@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header } from '../../components';
 import { COLORS, FONTS, FONT_SIZES } from '../../constants';
 import { getAvatarUrl } from '../../utils';
-import { getTeamDetail, leaveTeam, type TeamDetail } from '../../api/teams';
+import { getTeamDetail, leaveTeam, type TeamDetail } from '../../api/team';
 import { useConfirm } from '../../components/popup/ConfirmProvider';
 import { useErrorPopup } from '../../components/popup/ErrorPopupProvider';
 

@@ -18,14 +18,9 @@ import { Button, Header } from '../../components';
 import CameraIcon from '../../assets/icons/Camera.svg';
 
 import { useErrorPopup } from '../../components/popup/ErrorPopupProvider';
-import { createTeam } from '../../api/teams';
-
-const SHEET_TOP = 180; // 흰 패널 시작 위치
-const MAX_GROUP_NAME = 20;
-
-import { useErrorPopup } from '../../components/popup/ErrorPopupProvider';
 import { createTeam } from '../../api/team';
 
+const SHEET_TOP = 180; // 흰 패널 시작 위치
 const MAX_GROUP_NAME = 20;
 
 export function GroupCreateScreen({ navigation }: any) {
@@ -38,8 +33,6 @@ export function GroupCreateScreen({ navigation }: any) {
   const displayText = groupName.length > 0 ? groupName : '모임 이름 입력';
 
   const {showErrorPopup} = useErrorPopup();
-
-  const [loading, setLoading] = useState(false);
 
 
   useEffect(() => {
