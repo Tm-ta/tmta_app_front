@@ -11,6 +11,8 @@ import { GroupListScreen } from '../screens/group/GroupListScreen';
 import { GroupCreateScreen } from '../screens/group/GroupCreateScreen';
 import { GroupProfileScreen } from '../screens/group/GroupProfileScreen';
 import { GroupDetailScreen } from '../screens/group/GroupDetailScreen';
+import { GroupJoinScreen } from '../screens/group/GroupJoinScreen';
+import { GroupSettingScreen } from '../screens/group/GroupSettingScreen';
 
 // Schedule Screens
 import { ScheduleDetailScreen } from '../screens/schedule/ScheduleDetailScreen';
@@ -47,6 +49,8 @@ export function RootNavigator() {
         <Stack.Screen name="GroupCreate" component={GroupCreateScreen} />
         <Stack.Screen name="GroupProfile" component={GroupProfileScreen} />
         <Stack.Screen name="GroupDetail" component={GroupDetailScreen} />
+        <Stack.Screen name="GroupJoin" component={GroupJoinScreen} />
+        <Stack.Screen name="GroupSetting" component={GroupSettingScreen} />
 
         {/* Schedule Screens */}
         <Stack.Screen name="ScheduleDetail" component={ScheduleDetailScreen} />

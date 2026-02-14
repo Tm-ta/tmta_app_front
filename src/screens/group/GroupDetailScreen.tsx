@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -26,11 +26,9 @@ import { MembersTab } from './components/MembersTab';
 import { SchedulesTab } from './components/SchedulesTab';
 import PeopleIcon from '../../assets/icons/People.svg';
 import CalendarPlusIcon from '../../assets/icons/Calendar-plus.svg';
-import SettingIcon from '../../assets/icons/Setting.svg'
-
-// Error Popup test
+import SettingIcon from '../../assets/icons/Setting.svg';
+import { getTeamDetail, type TeamDetail } from '../../api/team';
 import { useErrorPopup } from '../../components/popup/ErrorPopupProvider';
-import { TestModal } from '../../components/popup/TestModal';
 import { VoteTab } from './components/VoteTab';
 
 type TabType = '멤버' | '일정' | '투표';
@@ -40,17 +38,34 @@ export function GroupDetailScreen({ navigation, route }: any) {
   const [selectedTab, setSelectedTab] = useState<TabType>('일정');
   const insets = useSafeAreaInsets();
 
-  // groupId로 해당 그룹 찾기
-  const group = MOCK_GROUPS.find(g => g.id === groupId) || MOCK_GROUPS[0];
-
-  // Error Popup test
+  const [team, setTeam] = useState<TeamDetail | null>(null);
   const { showErrorPopup } = useErrorPopup();
-  const [testOpen, setTestOpen] = useState(false);
+
+  useEffect(() => {
+    if (!groupId) return;
+    (async () => {
+      try {
+        const detail = await getTeamDetail(String(groupId));
+        setTeam(detail);
+      } catch {
+        showErrorPopup('CHECK_NETWORK_AND_RETRY');
+      }
+    })();
+  }, [groupId, showErrorPopup]);
+
+  // 기존 MOCK 데이터는 fallback 용
+  const group = MOCK_GROUPS.find(g => g.id === groupId) || MOCK_GROUPS[0];
 
   const renderTabContent = () => {
     switch (selectedTab) {
       case '멤버':
-        return <MembersTab members={MOCK_MEMBERS} />;
+        return (
+          <MembersTab
+            members={MOCK_MEMBERS}
+            memberCount={team?.memberCount}
+            groupId={String(groupId)}
+          />
+        );
       case '일정':
         return (
           <SchedulesTab
@@ -85,18 +100,28 @@ export function GroupDetailScreen({ navigation, route }: any) {
       {/* Group Info */}
       <View style={styles.groupInfo}>
         <Image
-          source={{ uri: getAvatarUrl(100, group.id) }}
+          source={{ uri: getAvatarUrl(100, String(groupId)) }}
           style={styles.groupImage}
         />
         <View style={styles.groupDetails}>
           <View style={styles.groupHeader}>
-            <Text style={styles.groupName}>{group.name}</Text>
-            <SettingIcon width={17} height={17} />
+            <Text style={styles.groupName}>
+              {team?.groupName ?? group.name}
+            </Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('GroupSetting', { groupId: String(groupId) })
+              }
+            >
+              <SettingIcon width={17} height={17} />
+            </TouchableOpacity>
           </View>
           <View style={styles.groupMeta}>
             <View style={styles.metaItem}>
               <PeopleIcon width={16} height={16} fill={COLORS.text.primary} />
-              <Text style={styles.metaText}>{group.memberCount}명</Text>
+              <Text style={styles.metaText}>
+                {(team?.memberCount ?? group.memberCount) + '명'}
+              </Text>
             </View>
             {/* <View style={styles.dot} />
             <Text style={styles.metaText}>{group.category}</Text> */}

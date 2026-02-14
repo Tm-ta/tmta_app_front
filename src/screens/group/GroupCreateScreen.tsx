@@ -8,7 +8,6 @@ import {
   Keyboard,
   TouchableOpacity,
   Image,
-  Alert,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
@@ -19,7 +18,7 @@ import { Button, Header } from '../../components';
 import CameraIcon from '../../assets/icons/Camera.svg';
 
 import { useErrorPopup } from '../../components/popup/ErrorPopupProvider';
-import { createTeam } from '../../api/teams';
+import { createTeam } from '../../api/team';
 
 const SHEET_TOP = 180; // 흰 패널 시작 위치
 const MAX_GROUP_NAME = 20;
@@ -33,7 +32,22 @@ export function GroupCreateScreen({ navigation }: any) {
   const [inputWidth, setInputWidth] = useState(120);
   const displayText = groupName.length > 0 ? groupName : '모임 이름 입력';
 
-  const { showErrorPopup } = useErrorPopup();
+  const {showErrorPopup} = useErrorPopup();
+
+
+  useEffect(() => {
+    const keyboardWillShow = Keyboard.addListener('keyboardDidShow', () => {
+      setIsKeyboardVisible(true);
+    });
+    const keyboardWillHide = Keyboard.addListener('keyboardDidHide', () => {
+      setIsKeyboardVisible(false);
+    });
+
+    return () => {
+      keyboardWillShow.remove();
+      keyboardWillHide.remove();
+    };
+  }, []);
 
   const handleImagePick = () => {
     launchImageLibrary(
@@ -46,7 +60,7 @@ export function GroupCreateScreen({ navigation }: any) {
       response => {
         if (response.didCancel) return;
         if (response.errorCode) {
-          Alert.alert('오류', '이미지를 불러올 수 없습니다.');
+          showErrorPopup('IMAGE_PICK_FAILED');
           return;
         }
         if (response.assets?.[0]?.uri) {
@@ -67,10 +81,11 @@ export function GroupCreateScreen({ navigation }: any) {
 
     try {
       setLoading(true);
-      await createTeam(name);
-      navigation.navigate('GroupProfile', { groupName: name });
+      const res = await createTeam(name);
+      // 2번 API 결과의 groupId를 넘겨줌 (teamId로 사용)
+      navigation.navigate('GroupProfile', { teamId: res.groupId });
     } catch (e) {
-      Alert.alert('오류', '모임 생성에 실패했어요. 다시 시도해주세요');
+      showErrorPopup('GROUP_CREATE_FAILED');
     } finally {
       setLoading(false);
     }

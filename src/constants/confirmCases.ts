@@ -1,4 +1,4 @@
-export type ConfirmCaseKey = 'logout' | 'withdraw' | 'leaveGroup';
+export type ConfirmCaseKey = 'logout' | 'withdraw' | 'leaveGroup' | 'deleteMember';
 
 export type ConfirmCase = {
   title: string;
@@ -22,6 +22,12 @@ export const CONFIRM_CASES: Record<ConfirmCaseKey, ConfirmCase> = {
   },
   leaveGroup: {
     title: '정말 모임을 나가시겠어요?',
+    body: '추후 수정',
+    leftText: '예',
+    rightText: '아니오',
+  },
+  deleteMember: {
+    title: '정말 해당 멤버를 추방하시겠어요?',
     body: '추후 수정',
     leftText: '예',
     rightText: '아니오',

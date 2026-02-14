@@ -18,6 +18,7 @@ import MapPinIcon from '../../assets/icons/Map-pin.svg';
 import GroupIcon from '../../assets/icons/Group.svg';
 import { COLORS, FONTS, FONT_SIZES } from '../../constants';
 import { Button } from '../../components';
+import { useErrorPopup } from '../../components/popup/ErrorPopupProvider';
 
 const TOGGLE_WIDTH = 48;
 const TOGGLE_HEIGHT = 28;
@@ -71,6 +72,7 @@ export function ScheduleSettingsScreen({ navigation, route }: any) {
   const [location, setLocation] = useState('길음역 4번출구');
   const [maxParticipants, setMaxParticipants] = useState('최대 10명');
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const { showErrorPopup } = useErrorPopup();
 
   useEffect(() => {
     const keyboardWillShow = Keyboard.addListener('keyboardDidShow', () => {
@@ -120,7 +122,12 @@ export function ScheduleSettingsScreen({ navigation, route }: any) {
   };
 
   const handleNext = () => {
-    // 나중에 여기서 "약속 생성 API" 호출하고 scheduleId 받아오면 베스트
+    if (!title.trim()) {
+      showErrorPopup('APPOINTMENT_NAME_REQUIRED');
+      return;
+    }
+
+    // TODO: 약속 생성 API 붙이면 여기서 호출하고 실패 시 SAVE_FAILED 사용
     const scheduleId = 'temp_schedule_id';
 
     navigation.navigate('ScheduleCreated', {
