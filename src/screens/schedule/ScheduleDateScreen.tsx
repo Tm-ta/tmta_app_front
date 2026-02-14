@@ -21,6 +21,7 @@ import {
 } from 'react-native-gesture-handler';
 import { COLORS, FONTS, FONT_SIZES } from '../../constants';
 import { Button } from '../../components';
+import { useErrorPopup } from '../../components/popup/ErrorPopupProvider';
 
 // 한국어 설정
 LocaleConfig.locales.kr = {
@@ -126,6 +127,7 @@ const SELECTED_DATE_STYLE = {
 
 export function ScheduleDateScreen({ navigation, route }: any) {
   const { groupId } = route.params || {};
+  const { showErrorPopup } = useErrorPopup();
 
   // 날짜를 YYYY-MM-DD 형식의 문자열로 변환
   const getDateString = (date: Date) => {
@@ -189,6 +191,10 @@ export function ScheduleDateScreen({ navigation, route }: any) {
 
   const handleNext = () => {
     const dates = Object.keys(selectedDates);
+    if (dates.length === 0) {
+      showErrorPopup('DATE_REQUIRED');
+      return;
+    }
     navigation.navigate('ScheduleTime', { groupId, selectedDates: dates });
   };
 

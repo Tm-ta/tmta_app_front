@@ -41,8 +41,10 @@ export type RootStackParamList = {
   // Group
   GroupList: undefined;
   GroupCreate: undefined;
-  GroupProfile: undefined;
+  GroupProfile: { teamId: string };
   GroupDetail: { groupId: string };
+  GroupJoin: undefined;
+  GroupSetting: { groupId: string };
   
   // Schedule
   ScheduleDetail: { scheduleId: string };

@@ -6,7 +6,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  Alert,
   Keyboard,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,12 +14,15 @@ import PlusIcon from '../../assets/icons/Plus.svg';
 import CameraIcon from '../../assets/icons/Camera.svg'
 import { COLORS, FONTS, FONT_SIZES } from '../../constants';
 import { Button, Header, Input } from '../../components';
+import { joinTeam } from '../../api/team';
+import { useErrorPopup } from '../../components/popup/ErrorPopupProvider';
 
 export function GroupProfileScreen({ navigation, route }: any) {
-  // const { groupName } = route.params || {};
+  const { teamId } = route.params || {};
   const [nickname, setNickname] = useState('');
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const { showErrorPopup } = useErrorPopup();
 
   useEffect(() => {
     const keyboardWillShow = Keyboard.addListener('keyboardDidShow', () => {
@@ -48,7 +50,7 @@ export function GroupProfileScreen({ navigation, route }: any) {
         if (response.didCancel) {
           console.log('User cancelled image picker');
         } else if (response.errorCode) {
-          Alert.alert('오류', '이미지를 불러올 수 없습니다.');
+          showErrorPopup('IMAGE_PICK_FAILED');
         } else if (response.assets && response.assets[0]) {
           setProfileImage(response.assets[0].uri || null);
         }
@@ -56,10 +58,18 @@ export function GroupProfileScreen({ navigation, route }: any) {
     );
   };
 
-  const handleNext = () => {
-    if (nickname.trim()) {
-      // Navigate to group detail or complete creation
-      navigation.navigate('GroupDetail', { groupId: 'new' });
+  const handleNext = async () => {
+    const name = nickname.trim();
+    if (!name || !teamId) return;
+
+    try {
+      await joinTeam(String(teamId), {
+        userName: name,
+        profileImg: profileImage ?? '',
+      });
+      navigation.navigate('GroupDetail', { groupId: String(teamId) });
+    } catch (e) {
+      showErrorPopup('GROUP_JOIN_FAILED');
     }
   };
 
